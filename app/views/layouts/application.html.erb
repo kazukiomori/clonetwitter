@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clonetwitter</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+      <h1>clone twitter</h1>
+      <div class="header-list">
+        <% if user_signed_in? %>
+          <ul>
+            <li><%= link_to "ホーム",tweets_path %></li>
+            <li><%= link_to "新規投稿",new_tweet_path %></li>
+            <li><%= link_to "マイページ", user_path(current_user.id) %></li>　
+            <li><%= link_to "ログアウト",destroy_user_session_path,method: :delete %></li>
+          </ul>
+        <% else%>
+          <ul>
+            <li><%= link_to "ログイン", new_user_session_path %></li>
+            <li><%= link_to "新規登録",new_user_registration_path %></li>
+          </ul>
+        <%end%>
+      </div>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+    <footer>
+      <p>Copyright © clone twitter All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

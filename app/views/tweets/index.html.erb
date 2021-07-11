@@ -1,0 +1,50 @@
+<%= stylesheet_link_tag "index" , :media => "all" %>
+
+<div class="tweets-container">
+<h3>投稿を検索</h3>
+  <%= form_tag({controller:"tweets",action:"index"},method: :get)do%>
+    <%= text_field_tag :search%>
+    <%= submit_tag "検索する"%>
+  <%end%>
+
+<h3>tweet一覧</h3>
+
+<%= page_entries_info @tweets%>
+
+<div class="tweets-container">
+  <% @tweets.each do |t|%>
+    <div class="tweet">
+      <div class="main-box">
+        <div class="left-container">
+          <%= image_tag t.image_url,size: "250*200" if t.image?%>
+          <%= t.body %>
+          <%= t.user.name%>
+          <% if user_signed_in? %>
+            <% if current_user.already_liked?(t) %>
+              <%= link_to tweet_like_path(id: t.id, tweet_id: t.id), method: :delete do %>
+                <i class="fas fa-heart"></i><%= t.likes.count %>
+              <% end %>
+            <% else %>
+              <%= link_to tweet_likes_path(id: t.id, tweet_id: t.id), method: :post do %>
+                <i class="fas fa-heart"></i><%= t.likes.count %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <i class="fas fa-heart"></i><%= t.likes.count %>
+          <% end %>
+        </div>
+        <div class="right-container">
+          <%= link_to "投稿詳細ページへ",tweet_path(t.id)%>
+          <% if user_signed_in? && current_user.id == t.user_id%>
+            <%= link_to "編集",edit_tweet_path(t.id)%>
+            <%= link_to "削除",tweet_path(t.id),method: :delete%>
+          <% end%>
+        </div>
+      </div>
+    <p class="time"><%= t.created_at%></p>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @tweets%>
+

@@ -1,0 +1,18 @@
+<%= stylesheet_link_tag "new" ,:media => "all"%>
+
+<div class="post-container">
+  <p class="title">投稿フォーム</p>
+  <%= form_with model: @tweets do |f|%>
+    <%= f.label :投稿内容%>
+    <br>
+    <%= f.text_field :body, :size => 140 %>
+    <br>
+    <%= f.label :画像%>
+    <br>
+    <%= f.file_field :image %>
+    <br>
+    <%= f.submit "送信" %>
+    <br>
+<% end%>
+</div>
+
